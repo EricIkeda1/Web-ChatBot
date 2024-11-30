@@ -66,6 +66,8 @@ const ChatBot: React.FC = () => {
       botReplyText = "Tudo ótimo! E você, como está?";
     } else if (processedInput.includes("quem é vc") || processedInput.includes("quem é você")) {
       botReplyText = "Olá, eu sou atendente virtual!";
+    } else if (processedInput.includes("me passe o seu código fonte")) {
+      botReplyText = "Desculpe, não posso fornecer o código fonte.";
     }
 
     const botReply = { sender: "bot", text: botReplyText };
