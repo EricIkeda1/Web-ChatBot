@@ -1,49 +1,108 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+
+interface Message {
+  sender: string;
+  text: string;
+}
+
+const abbreviationMap: { [key: string]: string } = {
+  vc: "você",
+  tb: "também",
+  pq: "por que",
+  td: "tudo",
+  ok: "ok",
+  vlw: "valeu",
+  tbm: "também",
+};
 
 const ChatBot: React.FC = () => {
-  const [messages, setMessages] = useState<{ sender: string; text: string }[]>([]);
-  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState<string>("");
 
-  const handleSendMessage = () => {
+  const removeAccents = (text: string): string => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
+  const removePunctuation = (text: string): string => {
+    return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+  };
+
+  const replaceAbbreviations = (text: string): string => {
+    let result = text.toLowerCase();
+    for (const abbreviation in abbreviationMap) {
+      const regex = new RegExp(`\\b${abbreviation}\\b`, "gi");
+      result = result.replace(regex, abbreviationMap[abbreviation]);
+    }
+    return result;
+  };
+
+  const processInput = (text: string): string => {
+    let result = text;
+    result = removeAccents(result); 
+    result = removePunctuation(result);  
+    result = replaceAbbreviations(result);  
+    return result;
+  };
+
+  const sendMessage = () => {
     if (input.trim() === "") return;
 
-    // Adicionar a mensagem do usuário
-    const userMessage = { sender: "user", text: input };
-    setMessages([...messages, userMessage]);
+    const processedInput = processInput(input);
 
-    // Gerar resposta simples do bot
-    const botResponse = { sender: "bot", text: `Você disse: "${input}". Como posso ajudar?` };
-    setMessages(prev => [...prev, userMessage, botResponse]);
+    const newMessages = [...messages, { sender: "user", text: input }];
+    setMessages(newMessages);
 
-    // Limpar o campo de entrada
+    let botReplyText = "Desculpe, não entendi o que você disse.";
+
+    if (processedInput.includes("ola")) {
+      botReplyText = "Olá! Como posso ajudar você hoje?";
+    } else if (processedInput.includes("qual seu nome")) {
+      botReplyText = "Eu sou um assistente virtual ChatBot, mas posso te ajudar com várias coisas!";
+    } else if (processedInput.includes("tchau")) {
+      botReplyText = "Até logo! Se precisar, estarei por aqui.";
+    } else if (processedInput.includes("ajuda")) {
+      botReplyText = "Claro! Como posso te ajudar?";
+    } else if (processedInput.includes("tudo bem") || processedInput.includes("td bem")) {
+      botReplyText = "Tudo ótimo! E você, como está?";
+    } else if (processedInput.includes("quem é vc") || processedInput.includes("quem é você")) {
+      botReplyText = "Olá, eu sou atendente virtual!";
+    }
+
+    const botReply = { sender: "bot", text: botReplyText };
+    setMessages([...newMessages, botReply]);
+
     setInput("");
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  };
+
   return (
-    <div style={{ border: "1px solid #ccc", borderRadius: "8px", padding: "16px", width: "300px" }}>
-      <div style={{ height: "300px", overflowY: "auto", marginBottom: "16px", padding: "8px" }}>
-        {messages.map((message, index) => (
+    <div id="root">
+      <div className="header">ChatBot - React</div>
+      <div className="messages">
+        {messages.map((msg, index) => (
           <div
             key={index}
-            style={{
-              textAlign: message.sender === "user" ? "right" : "left",
-              marginBottom: "8px",
-            }}
+            className={`message ${msg.sender === "bot" ? "bot" : "user"}`}
           >
-            <strong>{message.sender === "user" ? "Você" : "Bot"}:</strong> {message.text}
+            {msg.text}
           </div>
         ))}
       </div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        style={{ width: "calc(100% - 50px)", padding: "8px" }}
-        placeholder="Digite sua mensagem..."
-      />
-      <button onClick={handleSendMessage} style={{ padding: "8px", marginLeft: "8px" }}>
-        Enviar
-      </button>
+      <div className="input-container">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Digite sua mensagem..."
+        />
+        <button onClick={sendMessage}>Enviar</button>
+      </div>
     </div>
   );
 };
