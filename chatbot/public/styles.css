@@ -1,104 +1,130 @@
-/* Estilos gerais */
 body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f6f7f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  /* Container do chatbot */
-  #root {
-    width: 100%;
-    max-width: 600px; 
-    height: 90vh;    
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);  
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  
-  /* Header */
-  #root .header {
-    background-color: #1e2a37;
-    color: #fff;
-    padding: 15px;
-    font-size: 22px; 
-    font-weight: 600;
-    text-align: center;
-    border-bottom: 2px solid #ccc;
-  }
-  
-  /* Área de mensagens */
-  .messages {
-    flex-grow: 1;
-    padding: 30px; 
-    overflow-y: auto;
-    background-color: #fafafa;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;  
-    border-bottom: 2px solid #ddd;  
-  }
-  
-  /* Mensagens do bot */
-  .message.bot {
-    background-color: #f1f1f1;
-    color: #333;
-    padding: 12px 18px;  
-    border-radius: 15px;
-    max-width: 85%;
-    align-self: flex-start;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Mensagens do usuário */
-  .message.user {
-    background-color: #0078d4;
-    color: white;
-    padding: 12px 18px;  
-    border-radius: 15px;
-    max-width: 85%;
-    align-self: flex-end;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Input de mensagem */
-  .input-container {
-    display: flex;
-    padding: 15px 20px; 
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .input-container input {
-    width: 80%;
-    padding: 12px;
-    border-radius: 30px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-  }
-  
-  .input-container button {
-    background-color: #0078d4;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-    width: 15%;
-  }
-  
-  .input-container button:hover {
-    background-color: #005a8c;
-  }
-  
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f6f7f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container do chatbot */
+#root {
+  width: 100%;
+  max-width: 600px;
+  height: 90vh;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+#root .header {
+  background-color: #1e2a37;
+  color: #fff;
+  padding: 15px;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 2px solid #ccc;
+}
+
+/* Área de mensagens */
+.messages {
+  flex-grow: 1;
+  padding: 30px;
+  overflow-y: auto;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Mensagens do bot */
+.message.bot {
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 12px 18px;
+  border-radius: 15px;
+  max-width: 85%;
+  align-self: flex-start;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Mensagens do usuário */
+.message.user {
+  background-color: #0078d4;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 15px;
+  max-width: 85%;
+  align-self: flex-end;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Respostas rápidas */
+.quick-replies {
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-top: 2px solid #ddd;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.quick-replies button {
+  background-color: #0078d4;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.quick-replies button:hover {
+  background-color: #005a8c;
+}
+
+/* Caixa de entrada de mensagem */
+.input-container {
+  display: flex;
+  padding: 15px 20px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Caixa de input */
+.input-container input {
+  width: 80%;
+  padding: 12px;
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+/* Botão de envio */
+.input-container button {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  width: 15%;
+}
+
+.input-container button:hover {
+  background-color: #005a8c;
+}

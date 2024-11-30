@@ -44,12 +44,12 @@ const ChatBot: React.FC = () => {
     return result;
   };
 
-  const sendMessage = () => {
-    if (input.trim() === "") return;
+  const sendMessage = (messageText: string) => {
+    if (messageText.trim() === "") return;
 
-    const processedInput = processInput(input);
+    const processedInput = processInput(messageText);
 
-    const newMessages = [...messages, { sender: "user", text: input }];
+    const newMessages = [...messages, { sender: "user", text: messageText }];
     setMessages(newMessages);
 
     let botReplyText = "Desculpe, não entendi o que você disse.";
@@ -78,8 +78,12 @@ const ChatBot: React.FC = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      sendMessage();
+      sendMessage(input);
     }
+  };
+
+  const handleQuickReply = (response: string) => {
+    sendMessage(response);
   };
 
   return (
@@ -95,6 +99,14 @@ const ChatBot: React.FC = () => {
           </div>
         ))}
       </div>
+      
+      <div className="quick-replies">
+        <button onClick={() => handleQuickReply("olá")}>Olá</button>
+        <button onClick={() => handleQuickReply("qual seu nome")}>Qual seu nome?</button>
+        <button onClick={() => handleQuickReply("ajuda")}>Preciso de ajuda</button>
+        <button onClick={() => handleQuickReply("tchau")}>Tchau</button>
+      </div>
+
       <div className="input-container">
         <input
           type="text"
@@ -103,7 +115,7 @@ const ChatBot: React.FC = () => {
           onKeyDown={handleKeyDown}
           placeholder="Digite sua mensagem..."
         />
-        <button onClick={sendMessage}>Enviar</button>
+        <button onClick={() => sendMessage(input)}>Enviar</button>
       </div>
     </div>
   );
